@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kodexa — Soluciones Tecnológicas a tu Medida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0d1b2a;
+      --navy-2:  #1b2d42;
+      --accent:  #3b82f6;
+      --accent-h:#2563eb;
+      --teal:    #06b6d4;
+      --white:   #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100:#f1f5f9;
+      --gray-300:#cbd5e1;
+      --gray-500:#64748b;
+      --gray-700:#334155;
+      --radius:  12px;
+      --shadow:  0 4px 24px rgba(13,27,42,.08);
+      --shadow-lg:0 8px 40px rgba(13,27,42,.14);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--gray-700);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAVBAR ─────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6%; height: 68px;
+      background: rgba(13,27,42,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .nav-logo {
+      font-size: 1.3rem; font-weight: 800;
+      color: var(--white); text-decoration: none; letter-spacing: -.5px;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,.75); text-decoration: none;
+      font-size: .9rem; font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--accent); color: var(--white);
+      padding: .5rem 1.25rem; border-radius: 8px;
+      font-size: .875rem; font-weight: 600; text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: var(--accent-h); transform: translateY(-1px); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-logo { font-size: 1.1rem; }
+    }
+
+    /* ── HERO ────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(145deg, var(--navy) 0%, var(--navy-2) 60%, #0f2a4a 100%);
+      padding: 100px 6% 80px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(59,130,246,.12) 0%, transparent 70%);
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(59,130,246,.15); border: 1px solid rgba(59,130,246,.3);
+      color: #93c5fd; padding: .4rem 1rem; border-radius: 99px;
+      font-size: .8rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+      margin-bottom: 1.75rem;
+    }
+    .hero-badge::before { content: '●'; color: var(--teal); font-size: .6rem; }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800; color: var(--white);
+      line-height: 1.15; letter-spacing: -.03em;
+      max-width: 800px; margin: 0 auto 1.5rem;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(90deg, var(--accent), var(--teal));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: rgba(255,255,255,.65);
+      max-width: 560px; margin: 0 auto 2.5rem;
+      font-weight: 400;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: var(--accent); color: var(--white);
+      padding: .85rem 2rem; border-radius: 10px;
+      font-size: 1rem; font-weight: 700; text-decoration: none;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(59,130,246,.4);
+    }
+    .btn-primary:hover { background: var(--accent-h); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(59,130,246,.5); }
+
+    .btn-ghost {
+      background: transparent; color: rgba(255,255,255,.85);
+      padding: .85rem 2rem; border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,.2);
+      font-size: 1rem; font-weight: 600; text-decoration: none;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,.5); background: rgba(255,255,255,.05); }
+
+    .hero-stats {
+      display: flex; gap: 3rem; justify-content: center;
+      margin-top: 4rem; flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-number { font-size: 1.8rem; font-weight: 800; color: var(--white); }
+    .stat-label { font-size: .8rem; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .06em; margin-top: .15rem; }
+
+    /* ── SECTIONS COMMON ─────────────────────────────────────── */
+    section { padding: 100px 6%; }
+
+    .section-label {
+      display: inline-block;
+      color: var(--accent); font-size: .78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em; margin-bottom: .75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+      font-weight: 800; color: var(--navy); line-height: 1.2;
+      letter-spacing: -.02em; margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem; color: var(--gray-500);
+      max-width: 540px; margin-bottom: 3.5rem;
+    }
+
+    .center { text-align: center; }
+    .center .section-subtitle { margin-left: auto; margin-right: auto; }
+
+    /* ── ABOUT ───────────────────────────────────────────────── */
+    .about { background: var(--gray-50); }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .about-visual {
+      background: linear-gradient(135deg, var(--navy), var(--navy-2));
+      border-radius: 20px; padding: 3rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+    }
+
+    .about-card {
+      background: rgba(255,255,255,.08); border-radius: 12px;
+      padding: 1.25rem; border: 1px solid rgba(255,255,255,.1);
+    }
+    .about-card .icon { font-size: 1.6rem; margin-bottom: .5rem; }
+    .about-card h4 { color: var(--white); font-size: .95rem; font-weight: 700; }
+    .about-card p { color: rgba(255,255,255,.55); font-size: .8rem; margin-top: .2rem; }
+
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-visual { order: -1; }
+    }
+
+    /* ── SERVICES ────────────────────────────────────────────── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem; max-width: 1200px; margin: 0 auto;
+    }
+
+    .service-card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 2rem; border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow); transition: transform .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--teal));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .3s;
+    }
+    .service-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: linear-gradient(135deg, rgba(59,130,246,.1), rgba(6,182,212,.1));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 1.25rem;
+    }
+
+    .service-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: .5rem; }
+    .service-card p { font-size: .925rem; color: var(--gray-500); line-height: 1.65; }
+
+    .service-tag {
+      display: inline-block; margin-top: 1rem;
+      background: var(--gray-100); color: var(--gray-700);
+      font-size: .75rem; font-weight: 600; padding: .3rem .75rem;
+      border-radius: 99px;
+    }
+
+    /* ── PROJECTS ────────────────────────────────────────────── */
+    .projects { background: var(--gray-50); }
+
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.75rem; max-width: 1200px; margin: 0 auto;
+    }
+
+    .project-card {
+      background: var(--white); border-radius: 16px;
+      overflow: hidden; box-shadow: var(--shadow);
+      border: 1px solid var(--gray-100);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .project-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+
+    .project-thumb {
+      height: 180px; display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; position: relative; overflow: hidden;
+    }
+    .project-thumb.blue  { background: linear-gradient(135deg, #1e3a5f, #2563eb); }
+    .project-thumb.teal  { background: linear-gradient(135deg, #0f2a35, #0891b2); }
+    .project-thumb.green { background: linear-gradient(135deg, #0f2e1a, #059669); }
+
+    .project-body { padding: 1.5rem; }
+    .project-type {
+      font-size: .72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--accent); margin-bottom: .4rem;
+    }
+    .project-body h3 { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: .5rem; }
+    .project-body p { font-size: .9rem; color: var(--gray-500); line-height: 1.6; }
+
+    .project-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+    .project-tag {
+      background: var(--gray-100); color: var(--gray-700);
+      font-size: .72rem; font-weight: 600; padding: .25rem .65rem; border-radius: 99px;
+    }
+
+    /* ── TECH ────────────────────────────────────────────────── */
+    .tech-grid {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      justify-content: center; max-width: 900px; margin: 0 auto;
+    }
+
+    .tech-pill {
+      display: flex; align-items: center; gap: .6rem;
+      background: var(--white); border: 1.5px solid var(--gray-100);
+      padding: .6rem 1.25rem; border-radius: 99px;
+      font-size: .875rem; font-weight: 600; color: var(--navy);
+      box-shadow: var(--shadow); transition: border-color .2s, transform .2s;
+    }
+    .tech-pill:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .tech-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .dot-blue  { background: var(--accent); }
+    .dot-teal  { background: var(--teal); }
+    .dot-green { background: #10b981; }
+    .dot-yellow{ background: #f59e0b; }
+    .dot-red   { background: #ef4444; }
+    .dot-purple{ background: #8b5cf6; }
+
+    /* ── WHY US ──────────────────────────────────────────────── */
+    .why { background: var(--navy); }
+    .why .section-title { color: var(--white); }
+    .why .section-subtitle { color: rgba(255,255,255,.5); }
+
+    .why-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem; max-width: 1200px; margin: 0 auto;
+    }
+
+    .why-card {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px; padding: 2rem;
+      transition: background .25s, transform .25s;
+    }
+    .why-card:hover { background: rgba(255,255,255,.09); transform: translateY(-4px); }
+
+    .why-number {
+      font-size: 2.2rem; font-weight: 800;
+      background: linear-gradient(90deg, var(--accent), var(--teal));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: .5rem;
+    }
+    .why-card h3 { color: var(--white); font-size: 1.05rem; font-weight: 700; margin-bottom: .5rem; }
+    .why-card p { color: rgba(255,255,255,.5); font-size: .9rem; line-height: 1.65; }
+
+    /* ── CTA BANNER ──────────────────────────────────────────── */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 50%, var(--teal) 100%);
+      padding: 90px 6%; text-align: center;
+    }
+    .cta-banner h2 {
+      font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800;
+      color: var(--white); letter-spacing: -.02em;
+      margin-bottom: 1rem;
+    }
+    .cta-banner p { color: rgba(255,255,255,.8); font-size: 1.1rem; margin-bottom: 2.5rem; }
+
+    .btn-white {
+      background: var(--white); color: var(--accent);
+      padding: .9rem 2.25rem; border-radius: 10px;
+      font-size: 1rem; font-weight: 700; text-decoration: none;
+      display: inline-block;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,.3); }
+
+    /* ── CONTACT ─────────────────────────────────────────────── */
+    .contact { background: var(--gray-50); }
+
+    .contact-wrapper {
+      max-width: 600px; margin: 0 auto;
+    }
+
+    .contact-info h3 { font-size: 1.5rem; font-weight: 800; color: var(--navy); margin-bottom: .75rem; }
+    .contact-info p { color: var(--gray-500); margin-bottom: 2rem; }
+
+    .contact-item {
+      display: flex; align-items: center; gap: .75rem;
+      margin-bottom: 1rem; color: var(--gray-700); font-size: .95rem;
+    }
+    .contact-item .ci-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: rgba(59,130,246,.1); display: flex; align-items: center;
+      justify-content: center; font-size: 1rem; flex-shrink: 0;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    footer {
+      background: var(--navy); padding: 2.5rem 6%;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo { font-size: 1.1rem; font-weight: 800; color: var(--white); }
+    .footer-logo span { color: var(--accent); }
+    footer p { color: rgba(255,255,255,.35); font-size: .8rem; }
+
+    /* ── SCROLL FADE ANIMATION ───────────────────────────────── */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+  <!-- ───────── NAVBAR ───────── -->
+  <nav>
+    <a class="nav-logo" href="#"><span>Ko</span>dexa</a>
+    <ul class="nav-links">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- ───────── HERO ───────── -->
+  <section class="hero">
+    <div style="position:relative;z-index:1;width:100%">
+      <div class="hero-badge">Soluciones tecnológicas para negocios reales</div>
+      <h1>Tu negocio merece<br /><span class="highlight">tecnología que funciona</span></h1>
+      <p>Creamos sistemas, webs y aplicaciones a medida para que tu empresa trabaje más rápido, con menos errores y mayor control.</p>
+      <div class="hero-actions">
+        <a href="#contacto" class="btn-primary">Quiero una solución →</a>
+        <a href="#proyectos" class="btn-ghost">Ver proyectos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── ABOUT ───────── -->
+  <section class="about" id="nosotros">
+    <div class="about-grid">
+      <div class="fade-up">
+        <span class="section-label">Quiénes somos</span>
+        <h2 class="section-title">Hacemos que la tecnología trabaje para ti</h2>
+        <p style="color:var(--gray-500);margin-bottom:1.5rem;font-size:1rem;line-height:1.75">
+          Somos un equipo joven y comprometido que traduce tus necesidades de negocio en soluciones digitales concretas. Sin jerga técnica, sin complicaciones. Tú nos dices el problema, nosotros lo resolvemos.
+        </p>
+        <p style="color:var(--gray-500);font-size:1rem;line-height:1.75">
+          Trabajamos con empresas pequeñas y medianas que quieren dar el salto digital sin gastar de más ni perder el control de su negocio.
+        </p>
+        <a href="#contacto" class="btn-primary" style="display:inline-block;margin-top:2rem">Más Información</a>
+      </div>
+      <div class="about-visual fade-up">
+        <div class="about-card">
+          <div class="icon">⚡</div>
+          <h4>Entrega rápida</h4>
+          <p>Primeros resultados en días, no meses</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">🎯</div>
+          <h4>A tu medida</h4>
+          <p>Nada genérico. Todo adaptado a tu negocio</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">🔒</div>
+          <h4>Soporte continuo</h4>
+          <p>No desaparecemos después de entregar</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">💰</div>
+          <h4>Precio justo</h4>
+          <p>Inversión razonable con retorno real</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── SERVICES ───────── -->
+  <section id="servicios">
+    <div class="center">
+      <span class="section-label">Lo que hacemos</span>
+      <h2 class="section-title">Servicios pensados para crecer</h2>
+      <p class="section-subtitle">Cada servicio está diseñado para resolver un problema real de tu empresa, no para impresionar con tecnología.</p>
+    </div>
+    <div class="services-grid fade-up">
+
+      <div class="service-card">
+        <div class="service-icon">🌐</div>
+        <h3>Páginas Web Profesionales</h3>
+        <p>Tu negocio necesita presencia digital real. Creamos sitios web modernos, rápidos y que convierten visitas en clientes.</p>
+        <span class="service-tag">Ideal para: negocios sin web o con web desactualizada</span>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🖥️</div>
+        <h3>Aplicaciones de Escritorio</h3>
+        <p>Software propio para tu empresa. Controla tus operaciones desde una aplicación diseñada exactamente para tu flujo de trabajo.</p>
+        <span class="service-tag">Ideal para: gestión interna y operaciones diarias</span>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">⚙️</div>
+        <h3>Sistemas a Medida</h3>
+        <p>¿Tienes un proceso manual o ineficiente? Lo digitalizamos. Desde control de inventario hasta gestión de clientes o facturación.</p>
+        <span class="service-tag">Ideal para: empresas con procesos manuales o en Excel</span>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🗄️</div>
+        <h3>Bases de Datos</h3>
+        <p>Organiza y protege la información de tu empresa. Diseñamos la estructura correcta para que tus datos sean un activo, no un problema.</p>
+        <span class="service-tag">Ideal para: empresas con muchos datos sin orden</span>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🤖</div>
+        <h3>Automatización de Procesos</h3>
+        <p>Elimina tareas repetitivas. Enviamos reportes automáticos, sincronizamos datos y ahorramos horas de trabajo manual cada semana.</p>
+        <span class="service-tag">Ideal para: reportes, emails, seguimientos repetitivos</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ───────── PROJECTS ───────── -->
+  <section class="projects" id="proyectos">
+    <div class="center">
+      <span class="section-label">Casos de ejemplo</span>
+      <h2 class="section-title">Proyectos como los que podemos hacer para ti</h2>
+      <p class="section-subtitle">Ejemplos reales del tipo de soluciones que entregamos.</p>
+    </div>
+    <div class="projects-grid fade-up">
+
+      <a class="project-card" href="proyecto-punto-venta.html" style="text-decoration:none;color:inherit;display:block">
+        <div class="project-thumb blue">📦</div>
+        <div class="project-body">
+          <div class="project-type">Sistema a medida</div>
+          <h3>Sistema de Punto de Venta</h3>
+          <p>Control total de ventas, inventario y finanzas con comprobantes NCF para la DGII. Roles, reportes y cobro rápido.</p>
+          <div class="project-tags">
+            <span class="project-tag">Control de stock</span>
+            <span class="project-tag">Reportes</span>
+            <span class="project-tag">Multi-usuario</span>
+            <span class="project-tag">NCF DGII</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="project-card" href="proyecto-web-local.html" style="text-decoration:none;color:inherit;display:block">
+        <div class="project-thumb teal">🏪</div>
+        <div class="project-body">
+          <div class="project-type">Página web</div>
+          <h3>Web para Negocio Local</h3>
+          <p>Sitio web moderno con catálogo de servicios, formulario de contacto y diseño optimizado para aparecer en Google.</p>
+          <div class="project-tags">
+            <span class="project-tag">Diseño responsive</span>
+            <span class="project-tag">SEO básico</span>
+            <span class="project-tag">WhatsApp integrado</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="project-card" href="proyecto-automatizacion.html" style="text-decoration:none;color:inherit;display:block">
+        <div class="project-thumb green">📊</div>
+        <div class="project-body">
+          <div class="project-type">Automatización</div>
+          <h3>Reporte Automático de Ventas</h3>
+          <p>El sistema genera y envía por correo un resumen de ventas diario sin que nadie tenga que hacer nada manualmente.</p>
+          <div class="project-tags">
+            <span class="project-tag">Envío automático</span>
+            <span class="project-tag">PDF generado</span>
+            <span class="project-tag">Datos en tiempo real</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ───────── TECH ───────── -->
+  <section>
+    <div class="center">
+      <span class="section-label">Tecnologías</span>
+      <h2 class="section-title">Herramientas que ya conocemos bien</h2>
+      <p class="section-subtitle">Usamos tecnología probada y confiable, no experimentos.</p>
+    </div>
+    <div class="tech-grid fade-up">
+      <div class="tech-pill"><span class="dot dot-blue"></span>Python</div>
+      <div class="tech-pill"><span class="dot dot-yellow"></span>JavaScript</div>
+      <div class="tech-pill"><span class="dot dot-blue"></span>React</div>
+      <div class="tech-pill"><span class="dot dot-green"></span>Node.js</div>
+      <div class="tech-pill"><span class="dot dot-blue"></span>PostgreSQL</div>
+      <div class="tech-pill"><span class="dot dot-teal"></span>MySQL</div>
+      <div class="tech-pill"><span class="dot dot-red"></span>HTML / CSS</div>
+      <div class="tech-pill"><span class="dot dot-purple"></span>Electron</div>
+      <div class="tech-pill"><span class="dot dot-green"></span>Excel Automation</div>
+      <div class="tech-pill"><span class="dot dot-blue"></span>APIs REST</div>
+    </div>
+  </section>
+
+  <!-- ───────── WHY US ───────── -->
+  <section class="why">
+    <div class="center">
+      <span class="section-label" style="color:var(--teal)">Por qué elegirnos</span>
+      <h2 class="section-title">No somos una agencia más. Somos tu equipo tech.</h2>
+      <p class="section-subtitle">Lo que nos diferencia no es solo lo que hacemos, sino cómo lo hacemos.</p>
+    </div>
+    <div class="why-grid fade-up">
+      <div class="why-card">
+        <div class="why-number">01</div>
+        <h3>Hablamos en tu idioma</h3>
+        <p>Nada de términos técnicos. Te explicamos todo de forma clara para que tomes decisiones con confianza.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-number">02</div>
+        <h3>Nos enfocamos en resultados</h3>
+        <p>No entregamos código, entregamos soluciones que tienen impacto real en tu operación diaria.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-number">03</div>
+        <h3>Plazos que cumplimos</h3>
+        <p>Establecemos tiempos reales y los respetamos. Tu negocio no puede esperar semanas sin avances.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-number">04</div>
+        <h3>Soporte real post-entrega</h3>
+        <p>Cuando termina el proyecto no desaparecemos. Seguimos disponibles para ajustes y soporte.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── CTA BANNER ───────── -->
+  <section class="cta-banner">
+    <h2>¿Listo para darle un salto<br />digital a tu negocio?</h2>
+    <p>Agenda una llamada gratuita y cuéntanos tu problema. Sin compromiso.</p>
+    <a href="#contacto" class="btn-white">Quiero mi consulta gratis →</a>
+  </section>
+
+  <!-- ───────── CONTACT ───────── -->
+  <section class="contact" id="contacto">
+    <div class="contact-wrapper fade-up">
+      <span class="section-label">Contacto</span>
+      <div class="contact-info">
+        <h3>Hablemos de tu proyecto</h3>
+        <p>Cuéntanos qué necesita tu empresa. La primera consulta es gratis y sin compromiso.</p>
+      </div>
+      <div class="contact-item">
+        <div class="ci-icon">📧</div>
+        <span>contacto@nexotech.com</span>
+      </div>
+      <div class="contact-item">
+        <div class="ci-icon">📱</div>
+        <span>+1 (000) 000-0000</span>
+      </div>
+      <div class="contact-item">
+        <div class="ci-icon">💬</div>
+        <span>WhatsApp disponible</span>
+      </div>
+      <div class="contact-item">
+        <div class="ci-icon">🕐</div>
+        <span>Respuesta en menos de 24 horas</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ───────── FOOTER ───────── -->
+  <footer>
+    <div class="footer-logo"><span>Ko</span>dexa</div>
+    <p>© 2025 Kodexa. Todos los derechos reservados.</p>
+    <p style="color:rgba(255,255,255,.3);font-size:.8rem">Hecho con dedicación para negocios reales.</p>
+  </footer>
+
+  <!-- ───────── SCROLL ANIMATION ───────── -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
