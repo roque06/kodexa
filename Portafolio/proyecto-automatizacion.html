@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reporte Automático de Ventas — Kodexa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:     #0d1b2a;
+      --navy-2:   #1b2d42;
+      --accent:   #3b82f6;
+      --accent-h: #2563eb;
+      --teal:     #06b6d4;
+      --green:    #10b981;
+      --white:    #ffffff;
+      --gray-50:  #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-300: #cbd5e1;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --radius:   12px;
+      --shadow:   0 4px 24px rgba(13,27,42,.08);
+      --shadow-lg:0 8px 40px rgba(13,27,42,.14);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--gray-700);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6%; height: 68px;
+      background: rgba(13,27,42,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-logo { font-size: 1.3rem; font-weight: 800; color: var(--white); text-decoration: none; letter-spacing: -.5px; }
+    .nav-logo span { color: var(--accent); }
+    .nav-back {
+      display: flex; align-items: center; gap: .5rem;
+      color: rgba(255,255,255,.7); text-decoration: none;
+      font-size: .875rem; font-weight: 500; transition: color .2s;
+    }
+    .nav-back:hover { color: var(--white); }
+    .nav-back svg { width: 16px; height: 16px; }
+
+    /* ── HERO ── */
+    .project-hero {
+      padding: 120px 6% 80px;
+      background: linear-gradient(145deg, #0a1628 0%, #0d2040 50%, #0a2a1e 100%);
+      position: relative; overflow: hidden;
+    }
+    .project-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 40% 50%, rgba(16,185,129,.08) 0%, transparent 70%);
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
+
+    .project-type-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(16,185,129,.15); border: 1px solid rgba(16,185,129,.3);
+      color: #6ee7b7; padding: .35rem .9rem; border-radius: 99px;
+      font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .project-hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800;
+      color: var(--white); line-height: 1.15; letter-spacing: -.03em;
+      margin-bottom: 1rem; max-width: 700px;
+    }
+    .project-hero h1 span {
+      background: linear-gradient(90deg, #10b981, #06b6d4);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .project-hero .lead {
+      font-size: 1.1rem; color: rgba(255,255,255,.65);
+      max-width: 580px; margin-bottom: 2.5rem;
+    }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 2rem; }
+    .meta-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.35); margin-bottom: .2rem; }
+    .meta-value { font-size: .95rem; font-weight: 600; color: rgba(255,255,255,.85); }
+
+    /* ── BODY ── */
+    .page-body { max-width: 1100px; margin: 0 auto; padding: 72px 6% 100px; }
+
+    .section-label {
+      display: inline-block;
+      color: var(--green); font-size: .78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em; margin-bottom: .6rem;
+    }
+    .section-title {
+      font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 800;
+      color: var(--navy); letter-spacing: -.02em; margin-bottom: 1.5rem;
+    }
+
+    /* ── GALERÍA ── */
+    .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 80px; }
+    .gallery-item {
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--gray-100); box-shadow: var(--shadow);
+      transition: transform .25s, box-shadow .25s; cursor: pointer;
+    }
+    .gallery-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .gallery-item img { width: 100%; display: block; }
+    .gallery-caption { padding: 1rem 1.25rem; background: var(--white); }
+    .gallery-caption h4 { font-size: .95rem; font-weight: 700; color: var(--navy); margin-bottom: .2rem; }
+    .gallery-caption p  { font-size: .83rem; color: var(--gray-500); }
+    @media (max-width: 700px) { .gallery { grid-template-columns: 1fr; } }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,.88); align-items: center; justify-content: center; padding: 2rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 92vw; max-height: 88vh; border-radius: 12px; box-shadow: 0 20px 80px rgba(0,0,0,.6); }
+    .lightbox-close {
+      position: absolute; top: 1.25rem; right: 1.5rem;
+      color: white; font-size: 2rem; cursor: pointer;
+      background: none; border: none; opacity: .7; transition: opacity .2s;
+    }
+    .lightbox-close:hover { opacity: 1; }
+
+    /* ── OVERVIEW ── */
+    .overview-grid {
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem;
+      align-items: start; margin-bottom: 80px;
+    }
+    @media (max-width: 850px) { .overview-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+    .overview-text p { color: var(--gray-500); margin-bottom: 1rem; font-size: .975rem; line-height: 1.75; }
+    .overview-aside { display: flex; flex-direction: column; gap: 1rem; }
+    .aside-card {
+      background: var(--gray-50); border: 1px solid var(--gray-100);
+      border-radius: 14px; padding: 1.5rem;
+    }
+    .aside-card h4 { font-size: .85rem; font-weight: 700; color: var(--navy); margin-bottom: .75rem; text-transform: uppercase; letter-spacing: .06em; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tag { background: var(--white); border: 1.5px solid var(--gray-300); color: var(--gray-700); font-size: .78rem; font-weight: 600; padding: .3rem .75rem; border-radius: 99px; }
+    .tag.blue   { border-color: rgba(59,130,246,.35);  color: var(--accent); background: rgba(59,130,246,.06); }
+    .tag.green  { border-color: rgba(16,185,129,.35);  color: #059669;       background: rgba(16,185,129,.06); }
+    .tag.teal   { border-color: rgba(6,182,212,.35);   color: #0891b2;       background: rgba(6,182,212,.06); }
+    .tag.yellow { border-color: rgba(245,158,11,.35);  color: #b45309;       background: rgba(245,158,11,.06); }
+
+    /* ── FLUJO ── */
+    .flow-section { margin-bottom: 80px; }
+    .flow-steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0; position: relative;
+    }
+    .flow-step {
+      background: var(--white); border: 1px solid var(--gray-100);
+      border-radius: 14px; padding: 1.5rem; box-shadow: var(--shadow);
+      position: relative; text-align: center;
+      transition: transform .22s, box-shadow .22s;
+    }
+    .flow-step:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .flow-number {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--teal));
+      color: white; font-size: .85rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto .75rem;
+    }
+    .flow-icon { font-size: 1.5rem; margin-bottom: .5rem; }
+    .flow-step h3 { font-size: .9rem; font-weight: 700; color: var(--navy); margin-bottom: .35rem; }
+    .flow-step p  { font-size: .8rem; color: var(--gray-500); line-height: 1.55; }
+
+    /* ── FEATURES ── */
+    .features-section { margin-bottom: 80px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+    .feature-card {
+      background: var(--white); border: 1px solid var(--gray-100);
+      border-radius: 14px; padding: 1.5rem; box-shadow: var(--shadow);
+      transition: transform .22s, box-shadow .22s;
+    }
+    .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .feature-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: linear-gradient(135deg, rgba(16,185,129,.1), rgba(6,182,212,.1));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1rem;
+    }
+    .feature-card h3 { font-size: .975rem; font-weight: 700; color: var(--navy); margin-bottom: .4rem; }
+    .feature-card p  { font-size: .875rem; color: var(--gray-500); line-height: 1.65; }
+
+    /* ── STACK TABLE ── */
+    .stack-section { margin-bottom: 80px; }
+    .stack-table { width: 100%; border-collapse: collapse; }
+    .stack-table th {
+      text-align: left; padding: .75rem 1rem;
+      font-size: .78rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--gray-500); border-bottom: 2px solid var(--gray-100);
+    }
+    .stack-table td { padding: .9rem 1rem; font-size: .9rem; border-bottom: 1px solid var(--gray-100); }
+    .stack-table tr:last-child td { border-bottom: none; }
+    .stack-table td:first-child { font-weight: 600; color: var(--navy); width: 160px; }
+    .stack-table tr:hover td { background: var(--gray-50); }
+    .tech-badge {
+      display: inline-flex; align-items: center;
+      background: var(--gray-100); color: var(--gray-700);
+      font-size: .78rem; font-weight: 600;
+      padding: .25rem .65rem; border-radius: 99px; margin: .15rem .1rem;
+    }
+
+    /* ── CTA ── */
+    .project-cta {
+      background: linear-gradient(135deg, #0a1e14, #0d2a1e);
+      border-radius: 20px; padding: 3rem; text-align: center;
+      border: 1px solid rgba(16,185,129,.15);
+    }
+    .project-cta h3 { font-size: 1.6rem; font-weight: 800; color: var(--white); margin-bottom: .75rem; }
+    .project-cta p  { color: rgba(255,255,255,.5); margin-bottom: 2rem; }
+    .btn-primary {
+      background: var(--green); color: var(--white);
+      padding: .85rem 2rem; border-radius: 10px;
+      font-size: 1rem; font-weight: 700; text-decoration: none;
+      display: inline-block;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 20px rgba(16,185,129,.35);
+    }
+    .btn-primary:hover { background: #059669; transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy); padding: 2rem 6%;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo { font-size: 1.1rem; font-weight: 800; color: var(--white); }
+    .footer-logo span { color: var(--accent); }
+    footer p { color: rgba(255,255,255,.35); font-size: .8rem; }
+
+    /* ── FADE ── */
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity .5s ease, transform .5s ease; }
+    .fade-up.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a class="nav-logo" href="index.html"><span>Ko</span>dexa</a>
+    <a class="nav-back" href="index.html">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      Volver al portafolio
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="project-hero">
+    <div class="hero-inner">
+      <div class="project-type-badge">Automatización</div>
+      <h1>Reporte Automático<br /><span>de Ventas</span></h1>
+      <p class="lead">Sistema que genera y envía un reporte diario de ventas en PDF de forma completamente automática, todos los días a la misma hora, sin intervención humana.</p>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <div class="meta-label">Tipo de proyecto</div>
+          <div class="meta-value">Automatización de procesos</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Entrega</div>
+          <div class="meta-value">Correo electrónico — PDF</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Frecuencia</div>
+          <div class="meta-value">Diaria — 7:00 AM automático</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUERPO -->
+  <div class="page-body">
+
+    <!-- GALERÍA -->
+    <div class="fade-up" style="margin-bottom:80px">
+      <span class="section-label">Capturas del sistema</span>
+      <h2 class="section-title">Así luce el sistema en acción</h2>
+      <div class="gallery">
+        <div class="gallery-item" onclick="openLightbox('img/automatizacion-dashboard.jpg')">
+          <img src="img/automatizacion-dashboard.jpg" alt="Dashboard de AutoReporte" />
+          <div class="gallery-caption">
+            <h4>Dashboard principal — AutoReporte</h4>
+            <p>Panel con métricas del día, productos más vendidos, flujo de automatización y estado del envío</p>
+          </div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('img/automatizacion-pdf.jpg')">
+          <img src="img/automatizacion-pdf.jpg" alt="Vista previa del PDF generado" />
+          <div class="gallery-caption">
+            <h4>Reporte PDF generado automáticamente</h4>
+            <p>Documento con ventas del día, productos, métodos de pago y totales, listo para enviar por correo</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+      <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+      <img id="lightbox-img" src="" alt="Vista ampliada" />
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="overview-grid fade-up">
+      <div class="overview-text">
+        <span class="section-label">El proyecto</span>
+        <h2 class="section-title">¿Qué problema resuelve?</h2>
+        <p>En muchos negocios, alguien tiene que revisar las ventas del día, armar un resumen en Excel o Word, y enviarlo por correo a los encargados. Este proceso toma tiempo, se olvida y los datos a veces no son precisos.</p>
+        <p>Desarrollamos un sistema que hace todo eso de forma automática: cada día a las 7:00 AM, el sistema accede a la base de datos de ventas, genera un reporte completo en PDF con los números del día anterior y lo envía por correo a los destinatarios configurados.</p>
+        <p>Nadie tiene que hacer nada. El reporte llega siempre a tiempo, con los datos exactos y con el mismo formato profesional todos los días.</p>
+      </div>
+      <div class="overview-aside">
+        <div class="aside-card">
+          <h4>Tecnologías usadas</h4>
+          <div class="tag-list">
+            <span class="tag blue">HTML5</span>
+            <span class="tag blue">CSS3</span>
+            <span class="tag yellow">JavaScript</span>
+            <span class="tag green">Generación PDF</span>
+            <span class="tag teal">Envío por correo</span>
+            <span class="tag green">Automatización</span>
+            <span class="tag">Programación de tareas</span>
+            <span class="tag">Google Fonts</span>
+          </div>
+        </div>
+        <div class="aside-card">
+          <h4>Métricas del ejemplo</h4>
+          <div class="tag-list">
+            <span class="tag green">RD$84,320 ventas/día</span>
+            <span class="tag">147 unidades vendidas</span>
+            <span class="tag">412 transacciones</span>
+            <span class="tag teal">Envío a las 7:00 AM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLUJO DE AUTOMATIZACIÓN -->
+    <div class="flow-section fade-up">
+      <span class="section-label">Cómo funciona</span>
+      <h2 class="section-title">El proceso paso a paso</h2>
+      <div class="flow-steps" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1.25rem">
+        <div class="flow-step">
+          <div class="flow-number">1</div>
+          <div class="flow-icon">🗄️</div>
+          <h3>Captura de datos</h3>
+          <p>El sistema consulta automáticamente la base de datos de ventas del día anterior</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-number">2</div>
+          <div class="flow-icon">🧠</div>
+          <h3>Resumen inteligente</h3>
+          <p>Calcula totales, agrupa por producto y método de pago, detecta los más vendidos</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-number">3</div>
+          <div class="flow-icon">📄</div>
+          <h3>Crea el PDF</h3>
+          <p>Genera un documento profesional con tablas, totales y el logo del negocio</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-number">4</div>
+          <div class="flow-icon">📧</div>
+          <h3>Envío por correo</h3>
+          <p>Envía el PDF adjunto al correo de los gerentes o encargados configurados</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FUNCIONALIDADES -->
+    <div class="features-section fade-up">
+      <span class="section-label">Funcionalidades</span>
+      <h2 class="section-title">Todo lo que incluye el sistema</h2>
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon">⏰</div>
+          <h3>Envío automático diario</h3>
+          <p>El reporte se genera y envía todos los días a la hora configurada, sin que nadie tenga que hacer nada.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Dashboard en tiempo real</h3>
+          <p>Panel visual con las métricas del día: ventas totales, unidades, transacciones y productos más vendidos.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <h3>PDF con formato profesional</h3>
+          <p>El documento incluye logo, tablas ordenadas, métodos de pago y totales. Listo para archivar o presentar.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">✅</div>
+          <h3>Estado del envío visible</h3>
+          <p>El dashboard muestra si el PDF fue generado, el correo enviado y la hora exacta de entrega.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Datos siempre precisos</h3>
+          <p>Al tomar los datos directo de la base de datos, se eliminan los errores humanos en el cálculo manual.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔔</div>
+          <h3>Próximo envío programado</h3>
+          <p>El panel muestra la fecha y hora del próximo reporte para que los gerentes sepan cuándo recibirlo.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STACK -->
+    <div class="stack-section fade-up">
+      <span class="section-label">Stack técnico</span>
+      <h2 class="section-title">Tecnología utilizada</h2>
+      <table class="stack-table">
+        <thead>
+          <tr>
+            <th>Capa</th>
+            <th>Tecnología</th>
+            <th>Para qué se usa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Dashboard</td>
+            <td>
+              <span class="tech-badge">HTML5</span>
+              <span class="tech-badge">CSS3</span>
+              <span class="tech-badge">JavaScript</span>
+            </td>
+            <td>Panel visual con métricas, tabla de productos y estado del sistema</td>
+          </tr>
+          <tr>
+            <td>Generación PDF</td>
+            <td>
+              <span class="tech-badge">HTML → PDF</span>
+              <span class="tech-badge">CSS Print</span>
+            </td>
+            <td>Convierte el reporte HTML en un documento PDF listo para enviar</td>
+          </tr>
+          <tr>
+            <td>Envío de correo</td>
+            <td>
+              <span class="tech-badge">SMTP / Email API</span>
+            </td>
+            <td>Envía el PDF como adjunto a los destinatarios configurados</td>
+          </tr>
+          <tr>
+            <td>Automatización</td>
+            <td>
+              <span class="tech-badge">Tarea programada</span>
+              <span class="tech-badge">Cron Job</span>
+            </td>
+            <td>Ejecuta el proceso diariamente a la hora definida sin intervención manual</td>
+          </tr>
+          <tr>
+            <td>Tipografía</td>
+            <td>
+              <span class="tech-badge">Inter</span>
+              <span class="tech-badge">Google Fonts</span>
+            </td>
+            <td>Fuente moderna y legible tanto en el dashboard como en el PDF impreso</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CTA -->
+    <div class="project-cta fade-up">
+      <h3>¿Cuántas horas pierdes haciendo reportes manuales?</h3>
+      <p>Podemos automatizar ese proceso para tu negocio. Tú recibes el reporte, nosotros nos encargamos del resto.</p>
+      <a href="index.html#contacto" class="btn-primary">Quiero automatizar mis reportes →</a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo"><span>Ko</span>dexa</div>
+    <p>© 2025 Kodexa. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
